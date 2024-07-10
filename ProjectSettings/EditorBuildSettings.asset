@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/TEST/Clippy.unity
+    guid: b9a32d97b005a7349a136012cc5d5899
+  - enabled: 1
+    path: Assets/Kirurobo/UniWindowController/Samples/03_Fullscreen/FullscreenSample.unity
+    guid: cc8dc9342a8c4436397f75a2389ffc1a
+  - enabled: 0
+    path: Assets/Scenes/TestsScene.unity
+    guid: 0584c38748ac08f4aabdf14f421decad
+  m_configObjects: {}

@@ -1,0 +1,316 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/icon.ico">
+    <link rel="stylesheet" type="text/css" href="./clippy.css" media="all">
+    <style>
+        html {
+          
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+    <script src="https://unpkg.com/jquery@3.2.1"></script>
+    <script src="./main.js"></script>
+   <!--<script src="./agent.js"></script> -->
+   <!-- <script src="./demo.js"></script>-->
+      <!-- onnx runtime (AI inference engine)-->
+   <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+   <script  type="module" src="llm.js"></script>
+   <script src="API.js"></script>
+    <!-- options with icons-->
+    <script type="text/javascript" src="iconselect.js"></script>
+    <script type="text/javascript" src="iscroll.js"></script>
+    <!-- <script src="./bundle.js"></script> -->
+    <!--#double agent-->  
+</head>
+<body>
+  <pre>
+    <button id="test" onclick="askllm()">ask llm</button>
+    <div id="result"></code>
+    </pre>
+  <div id="dragable">
+    <div class="dragpanel"id="dragableheader">Control Panel</div>    <button style="justify-content: center; display: inline-flex	;" id ="toggle"onclick="setelements()">></button>
+
+<span id="HUD">
+    <p>Details</p>
+    <div id="avatar" style="font-size: xx-small;  overflow-x:scroll;" > text: @</div>
+    <div id="my-icon-select" style="justify-content:center;padding-left:30 ;"></div>
+    <button id="button" onclick="myfunction()"> Remove Agent/s</button>
+    <div></div>
+  </span>
+
+    <textarea id="QAS" style=" padding: auto;">give me a Random fact</textarea>
+       <!-- leave this it's needed [some callstacks depend on its ] -->
+     <button onclick="paneloptions()" style="display: none;">event evaluation</button>
+    <button id="ask" onclick="ask()">Ask</button>
+  </div>
+
+  <script type="module" src="chat.js"></script>
+  <script>
+
+    function askllm(){
+      //console.log("answer");
+      golbalthis_agent.speak("you");
+
+    }
+    console.log("initial llm")
+             if(model_loaded){
+            app.run({
+            prompt: initial_prompt,
+            max_token_len: 2000
+            
+        });
+        clearInterval(checkInterval);
+    } else{
+        console.log('Waiting...')
+        golbalthis_agent.speak("loading the model...");
+    }
+  </script>
+
+
+
+    <script type="text/javascript">
+     var iconSelect;
+     var selectedText;
+     var golbalthis_agent;
+     var clippymanger= window.clippy;
+      function UpdateAgent(agent){
+           val= window.agent.Agent_name
+            console.log(`the agent ${val} at your service`)
+            clippy.load(`${val}`, function(agent){
+              agent.show();
+              agent.speak(`i'm ${val} at your service`)
+             golbalthis_agent=agent;
+             //console.log(golbalthis_agent);
+             //golbalthis_agent.speak("")
+              return golbalthis_agent
+            })
+         }
+      window.onload = function(){
+        iconSelect = new IconSelect("my-icon-select", 
+                {'selectedIconWidth':"Auto",//
+                'selectedIconHeight':100,
+                'selectedBoxPadding':1,
+                'iconsWidth':100,
+                'iconsHeight':100,
+                'boxIconSpace':1,
+                'vectoralIconNumber':4,
+                'horizontalIconNumber':4});
+             var icons = [];
+      
+            icons.push({'iconFilePath':'images/icons/1.png', 'iconValue':'1',Agent_name:'Clippy'});
+            icons.push({'iconFilePath':'images/icons/2.png', 'iconValue':'2',Agent_name:'Rover'});
+            icons.push({'iconFilePath':'images/icons/3.png', 'iconValue':'3',Agent_name:'Bonzi'});
+            icons.push({'iconFilePath':'images/icons/4.png', 'iconValue':'4',Agent_name:'F1'});
+            icons.push({'iconFilePath':'images/icons/5.png', 'iconValue':'5',Agent_name:'Genie'});
+            icons.push({'iconFilePath':'images/icons/6.png', 'iconValue':'6',Agent_name:'Genius'});
+            icons.push({'iconFilePath':'images/icons/7.png', 'iconValue':'7',Agent_name:'Rocky'});
+            icons.push({'iconFilePath':'images/icons/8.png', 'iconValue':'8',Agent_name:'Peedy'});
+            icons.push({'iconFilePath':'images/icons/9.png', 'iconValue':'9',Agent_name:'Merlin'});
+            icons.push({'iconFilePath':'images/icons/10.png', 'iconValue':'10',Agent_name:'Links'});
+            
+            // to do : add paths for each element
+            console.log(icons[0].Agent_name)
+            iconSelect.refresh(icons);
+           window.agentmanger=icons;
+           window.agentID= icons[iconSelect.getSelectedValue()]
+           // hold golbal variable with properties of the agent
+            window.activeagent =  {
+            name:0,
+            id:0,
+            holder:null,
+           }
+            window.activeagent.name ="Clippy"
+            window.activeagent.id ="1"
+            window.activeagent.holder =window.agentmanger[0];//function boostrap();
+            console.log(window.activeagent)
+            // todo: add  agentobject instead  
+            console.log(window.agentmanger[window.agentID])   
+          //console.log(swindow.agentmanger[0].Agent_name)
+            
+        };
+
+        // init for the first time
+         var agent = "Clippy"
+        clippy.load('Clippy', function(agent){
+           // init 
+            agent.show();
+            agent.speak("Hello, I'm Clippy your Good old friend powered by chat GPT!");
+            agent.speak("how can I help you today?");
+             console.log(agent);// current agent manger
+            golbalthis_agent=agent;//Singleton pattern 
+            window.activeagent=golbalthis_agent;
+         });
+         function setelements(){
+          var x = document.getElementById("toggle");
+  if (x.innerText === ">") {
+    x.innerHTML = "<";
+    //console.log(document.getElementById("HUD"))
+    document.getElementById("HUD").style="display: initial;"
+
+  } else {
+    x.innerHTML = ">";
+    //console.log(document.getElementById("HUD"))
+    document.getElementById("HUD").style="display: none;"
+
+  }
+         }
+          function ask(){
+            //console.log(golbalthis_agent);
+            var q = document.getElementById("QAS");
+             console.log(`the query string is ${q.value}`)
+             //todo ; add onnx inference 
+             // 
+        
+             //
+             
+            golbalthis_agent.speak(q.value);
+          }
+          //to do : code refactor
+         function myfunction(){ 
+           console.log("Asking AIENDPOINT");
+           //test  to remove all agents but leave the selected one
+           var list = document.getElementsByClassName("Clippy");
+           var leftovers = document.querySelectorAll("clippy-balloon clippy-top-left, clippy-balloon clippy-bottom-right, clippy-balloon clippy-top-right, clippy-balloon clippy-bottom-left, clippy-balloon clippy-bottom-right, clippy-tip, clippy-content")
+            for (let item of list) {
+           //console.log(item);
+             //console.log(window.clippy);
+              golbalthis_agent.speak("Good bye");
+              golbalthis_agent.play("Hide");
+              golbalthis_agent.hide();//wait for 2s before removing teh item:
+             setTimeout(()=>{
+              item.remove();
+             },2000)
+             //console.log(window.clippy);
+          }
+            for (let item of leftovers) {
+              item.remove();
+            }
+       
+        }
+        globalThis.window.CLIPPY_CDN ='agent' //folderprefixname +_agent name
+        
+  function paneloptions(){
+    var q = document.getElementById("QAS");
+    console.log(`the query string is ${q.value}`)
+
+const activebotfound = new CustomEvent("botfound", {
+  detail: {
+   constrctor () {
+    agentnewID=window.agentmanger[selectedText];
+    window.activeagent.agent
+    console.log("Agent update triggered")
+    window.agent=window.activeagent;//global observable  pattern
+    golbalthis_agent=window.agent;
+   }, 
+    name: window.activeagent.name,
+    ID:selectedText,//agent ID
+    agent:window.agentmanger[selectedText-1]   //return agent variable from the manger list
+  },
+});
+// add an appropriate event listener [update agent details]
+var place = document.getElementById("avatar");
+place.addEventListener("botfound", (e) => 
+e.detail.constrctor()
+);
+place.addEventListener('botfound', function(e){
+  console.log("the bot updated ");  
+  console.log(e.detail.id);
+  window.agentID= window.agentmanger[iconSelect.getSelectedValue()]
+
+   //nextAgent()
+   var tag= document.getElementsByClassName("selected-icon")[0].children;
+   console.log(tag);
+   tag.onchange = function(){
+
+    console.log(` test : ${tag.value} has been changed the id is ${e.detail}`); 
+   }
+             selectedText=iconSelect.getSelectedValue()
+              console.log(window.agent)
+              window.agent= window.agentmanger[selectedText-1]
+              //to do update the handler to the appropriate agent object(index)
+              window.activeagent.holder= window.activeagent;
+              var handler =window.activeagent.holder; 
+              document.getElementById("avatar").innerHTML=`the  selected agent is ${selectedText} hanlder:  ${handler} and the name is ${window.agent.Agent_name}`;
+              console.log(window.agent)
+              console.log(window.agent)
+               //change it (the second string literal) to the name of the agent 
+               //ping
+
+            });
+
+// dispatch the events
+place.dispatchEvent(activebotfound);
+ }
+ // catch on document...
+ document.addEventListener("hello", function(event) { // (1)
+    alert("Hello from " + event.target.tagName); // Hello from targer
+  });
+  let event = new Event("hello", {bubbles: true}); // (2)
+        </script>
+<script>
+    //Make the DIV element draggagle:
+dragElement(document.getElementById("dragable"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+  
+var target = document.querySelector('my-icon-select-box-scroll')
+var observer = new MutationObserver(function(mutations) {
+    console.log(target.innerText);   
+});
+observer.observe(target, {
+    attributes:    true,
+    childList:     true,
+    characterData: true
+});
+
+$('my-icon-select-box-scroll').bind('DOMSubtreeModified', function(){
+  console.log('changed');
+});
+
+  </script>
+</body>
+</html>
