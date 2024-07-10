@@ -14,3 +14,9 @@ https://github.com/PrestigeDevop/Clippy-Desktop/assets/85388342/78ab4c61-4a8d-42
 
 ![image](https://github.com/PrestigeDevop/Clippy-Desktop/assets/85388342/58e0299c-c0f6-457d-ae39-e11476ade2b0)
 
+# acknowledgement 
+
+[microsoft fair use](https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions)
+
+[download](https://github.com/PrestigeDevop/Clippy-Desktop/releases/tag/alpha)
+
